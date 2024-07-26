@@ -43,6 +43,26 @@ public class AddressOperations {
         }
     }
 
+    public static void readAllAddresses() {
+        String sql = "SELECT * FROM address";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            System.out.println("---");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Account ID: " + rs.getInt("account_id"));
+                System.out.println("Street: " + rs.getString("street"));
+                System.out.println("City: " + rs.getString("city"));
+                System.out.println("State: " + rs.getString("state"));
+                System.out.println("Zip Code: " + rs.getString("zip_code"));
+                System.out.println("---");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateAddress(int id, String newStreet, String newCity, String newState, String newZipCode) {
         String sql = "UPDATE address SET street = ?, city = ?, state = ?, zip_code = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

@@ -37,6 +37,23 @@ public class LogOperations {
         }
     }
 
+    public static void readAllLogs() {
+        String sql = "SELECT * FROM logs";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            System.out.println("---");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Log Message: " + rs.getString("log_message"));
+                System.out.println("Log Date: " + rs.getTimestamp("log_date"));
+                System.out.println("---");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateLog(int id, String newLogMessage, Timestamp newLogDate) {
         String sql = "UPDATE logs SET log_message = ?, log_date = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

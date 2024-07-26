@@ -37,6 +37,23 @@ public class AccountOperations {
         }
     }
 
+    public static void readAllAccounts() {
+        String sql = "SELECT * FROM accounts";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            System.out.println("---");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("User ID: " + rs.getInt("user_id"));
+                System.out.println("Balance: " + rs.getBigDecimal("balance"));
+                System.out.println("---");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateAccount(int id, BigDecimal newBalance) {
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -50,10 +67,22 @@ public class AccountOperations {
     }
 
     public static void deleteAccount(int id) {
+        deleteAssociatedAddresses(id);
         String sql = "DELETE FROM accounts WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void deleteAssociatedAddresses(int userId) {
+        String sql = "DELETE FROM address WHERE account_id IN (SELECT id FROM accounts WHERE user_id = ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

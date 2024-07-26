@@ -40,6 +40,24 @@ public class TransactionOperations {
         }
     }
 
+    public static void readAllTransactions() {
+        String sql = "SELECT * FROM transactions";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            System.out.println("---");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Account ID: " + rs.getInt("account_id"));
+                System.out.println("Amount: " + rs.getBigDecimal("amount"));
+                System.out.println("Transaction Date: " + rs.getTimestamp("transaction_date"));
+                System.out.println("---");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateTransaction(int id, BigDecimal newAmount, Timestamp newTransactionDate) {
         String sql = "UPDATE transactions SET amount = ?, transaction_date = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
