@@ -9,7 +9,7 @@ public class DatabaseConnection {
 
     public static Connection getConnection() {
         try {
-            // Corrected connection string to include DB_CLOSE_DELAY=-1 without any extra spaces
+            // Corrected connection string to include DB_CLOSE_DELAY=-1
             return DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1", "admin", "test");
         } catch (SQLException exception) {
             exception.printStackTrace();

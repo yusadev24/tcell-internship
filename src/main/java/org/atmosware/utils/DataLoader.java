@@ -27,7 +27,7 @@ public class DataLoader {
 
     public static void loadUsersFromFile(String filePath) {
         List<String> userLines = readFileLines(filePath);
-        System.out.println("Creating Users...");
+        System.out.println("\nCreating Users...");
         for (String userLine : userLines) {
             String[] userDetails = userLine.split(",");
             String username = userDetails[0];
@@ -35,6 +35,7 @@ public class DataLoader {
             String password = userDetails[2];
             UserOperations.createUser(username, email, password);
         }
+        System.out.println("\n");
     }
 
     public static void loadAccountsFromFile(String filePath) {
@@ -46,6 +47,8 @@ public class DataLoader {
             BigDecimal balance = new BigDecimal(accountDetails[1]);
             AccountOperations.createAccount(userId, balance);
         }
+        System.out.println("\n");
+
     }
 
     public static void loadAddressesFromFile(String filePath) {
@@ -60,5 +63,7 @@ public class DataLoader {
             String zipCode = addressDetails[4];
             AddressOperations.createAddress(accountId, street, city, state, zipCode);
         }
+        System.out.println("\n");
+
     }
 }
