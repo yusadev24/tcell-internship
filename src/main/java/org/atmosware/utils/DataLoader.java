@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +17,7 @@ public class DataLoader {
     private static List<String> readFileLines(String filePath) {
         try (InputStream inputStream = DataLoader.class.getResourceAsStream(filePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-
-            return reader.lines().collect(Collectors.toList());
+                return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Failed to read file: " + filePath, e);
         }

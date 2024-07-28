@@ -35,6 +35,11 @@ public class LogOperations {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // TODO: connectionu sonlandır. tüm operasyonlar için uygula
+        // You should ensure that these resources are closed in a finally block
+        // or by using the try-with-resources statement in Java,
+        // which automatically closes resources when they are no longer needed.
+        // TODO: aynı şekilde resultset ve statementlar da kapatılmalı
     }
 
     public static void readAllLogs() {
@@ -76,5 +81,6 @@ public class LogOperations {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 }
