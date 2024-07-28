@@ -67,7 +67,6 @@ public class AccountOperations {
     }
 
     public static void deleteAccount(int id) {
-        deleteAssociatedAddresses(id);
         String sql = "DELETE FROM accounts WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -78,14 +77,4 @@ public class AccountOperations {
         }
     }
 
-    private static void deleteAssociatedAddresses(int userId) {
-        String sql = "DELETE FROM address WHERE account_id IN (SELECT id FROM accounts WHERE user_id = ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -16,14 +16,14 @@ public class Table {
                 "id INT PRIMARY KEY AUTO_INCREMENT, " +
                 "user_id INT, " +
                 "balance DECIMAL(15, 2), " +
-                "FOREIGN KEY (user_id) REFERENCES users(id))";
+                "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE)";
 
         String createTransactionsTable = "CREATE TABLE IF NOT EXISTS transactions (" +
                 "id INT PRIMARY KEY AUTO_INCREMENT, " +
                 "account_id INT, " +
                 "amount DECIMAL(15, 2), " +
                 "transaction_date TIMESTAMP, " +
-                "FOREIGN KEY (account_id) REFERENCES accounts(id))";
+                "FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE)";
 
         String createAddressTable = "CREATE TABLE IF NOT EXISTS address (" +
                 "id INT PRIMARY KEY AUTO_INCREMENT, " +
@@ -32,7 +32,7 @@ public class Table {
                 "city VARCHAR(255), " +
                 "state VARCHAR(255), " +
                 "zip_code VARCHAR(10), " +
-                "FOREIGN KEY (account_id) REFERENCES accounts(id))";
+                "FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE)";
 
         String createLogsTable = "CREATE TABLE IF NOT EXISTS logs (" +
                 "id INT PRIMARY KEY AUTO_INCREMENT, " +

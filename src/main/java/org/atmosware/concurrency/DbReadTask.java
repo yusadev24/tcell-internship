@@ -4,10 +4,10 @@ import org.atmosware.operations.AccountOperations;
 import org.atmosware.operations.AddressOperations;
 import org.atmosware.operations.UserOperations;
 
-public class DataReadTask implements Runnable{
+public class DbReadTask implements Runnable{
     private final String operationType;
 
-    public DataReadTask(String opeartionType) {
+    public DbReadTask(String opeartionType) {
         this.operationType = opeartionType;
     }
 

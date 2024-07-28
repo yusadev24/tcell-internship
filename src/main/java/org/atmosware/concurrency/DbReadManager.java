@@ -1,12 +1,13 @@
 package org.atmosware.concurrency;
 
-public class DataReadManager {
+public class DbReadManager {
 
-    public static void startDataReadThreads() {
+    public static void startDbReadThreads() {
+
         // Create and start threads for concurrent operations
-        Thread readUsersThread = new Thread(new DataReadTask("readUsers"));
-        Thread readAccountsThread = new Thread(new DataReadTask("readAccounts"));
-        Thread readAddressesThread = new Thread(new DataReadTask("readAddresses"));
+        Thread readUsersThread = new Thread(new DbReadTask("readUsers"));
+        Thread readAccountsThread = new Thread(new DbReadTask("readAccounts"));
+        Thread readAddressesThread = new Thread(new DbReadTask("readAddresses"));
 
         try {
             readUsersThread.start();

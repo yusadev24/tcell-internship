@@ -1,6 +1,6 @@
 package org.atmosware;
 
-import org.atmosware.concurrency.DataReadManager;
+import org.atmosware.concurrency.DbReadManager;
 import org.atmosware.operations.AccountOperations;
 import org.atmosware.operations.AddressOperations;
 import org.atmosware.operations.UserOperations;
@@ -14,7 +14,7 @@ public class Main {
         Table table = new Table();
         table.createTables();
 
-        // Load data from files
+        //Load data from files
         long start = System.currentTimeMillis();
         DataLoader.loadUsersFromFile("/files/users.txt");
         long end = System.currentTimeMillis();
@@ -23,8 +23,9 @@ public class Main {
         DataLoader.loadAccountsFromFile("/files/accounts.txt");
         DataLoader.loadAddressesFromFile("/files/addresses.txt");
 
+        System.out.println("-------------------------------------");
 
-        DataReadManager.startDataReadThreads();
+        DbReadManager.startDbReadThreads();
 
         // User Operations
         System.out.println("\nReading Users:");
@@ -59,7 +60,7 @@ public class Main {
 
         System.out.println("\nReading Updated Address 1:");
         AddressOperations.getAddress(1);
-        //TODO: cascade
+
         System.out.println("\nDeleting Address 1...");
         AddressOperations.deleteAddress(1);
 
@@ -81,6 +82,5 @@ public class Main {
         System.out.println("\nReading all the Addresses:");
         AddressOperations.readAllAddresses();
 
-        //TODO: Spring Data JDBC (versiyon 2 kullanılıyor)
     }
 }
