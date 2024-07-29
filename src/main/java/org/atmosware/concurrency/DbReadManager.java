@@ -2,18 +2,36 @@ package org.atmosware.concurrency;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class DbReadManager {
 
     public static void startDbReadThreads() {
 
-        try(ExecutorService executorService = Executors.newFixedThreadPool(3)) {
+        try (ExecutorService executorService = Executors.newFixedThreadPool(3)) {
 
-            executorService.execute(() -> new DbReadTask("readUsers"));
-            executorService.execute(() -> new DbReadTask("readAccounts"));
-            executorService.execute(() -> new DbReadTask("readAddresses"));
+            executorService.execute(new DbReadTask("readUsers"));
+            executorService.execute(new DbReadTask("readAccounts"));
+            executorService.execute(new DbReadTask("readAddresses"));
 
-        } catch(Exception e){
+            //Since DbReadTask implements runnable, it's better to replace lambda expressions with instances.
+//            executorService.execute(() -> new DbReadTask("readUsers"));
+//            executorService.execute(() -> new DbReadTask("readAccounts"));
+//            executorService.execute(() -> new DbReadTask("readAddresses"));
+
+            executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
+                    if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                        System.err.println("Executor service did not terminate");
+                    }
+                }
+            } catch (InterruptedException ie) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt(); // Preserve interrupt status
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
