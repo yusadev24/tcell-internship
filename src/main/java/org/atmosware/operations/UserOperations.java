@@ -5,7 +5,7 @@ import org.atmosware.database.DatabaseConnection;
 import java.sql.*;
 
 public class UserOperations {
-    public static void createUser(String username, String email, String password) {
+    public static synchronized void createUser(String username, String email, String password) {
         String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -53,7 +53,7 @@ public class UserOperations {
         }
     }
 
-    public static void updateUser(int id, String newUsername, String newEmail, String newPassword) {
+    public static synchronized void updateUser(int id, String newUsername, String newEmail, String newPassword) {
         String sql = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class UserOperations {
         }
     }
 
-    public static void deleteUser(int id) {
+    public static synchronized void deleteUser(int id) {
         String sql = "DELETE FROM users WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

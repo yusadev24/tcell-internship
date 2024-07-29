@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountOperations {
-    public static void createAccount(int userId, BigDecimal balance) {
+    public static synchronized  void createAccount(int userId, BigDecimal balance) {
         String sql = "INSERT INTO accounts (user_id, balance) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -54,7 +54,7 @@ public class AccountOperations {
         }
     }
 
-    public static void updateAccount(int id, BigDecimal newBalance) {
+    public static synchronized void updateAccount(int id, BigDecimal newBalance) {
         String sql = "UPDATE accounts SET balance = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -66,7 +66,7 @@ public class AccountOperations {
         }
     }
 
-    public static void deleteAccount(int id) {
+    public static synchronized void deleteAccount(int id) {
         String sql = "DELETE FROM accounts WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

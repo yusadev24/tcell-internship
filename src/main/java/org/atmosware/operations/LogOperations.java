@@ -14,7 +14,7 @@ public class LogOperations {
     // or by using the try-with-resources statement in Java,
     // which automatically closes resources when they are no longer needed.
 
-    public static void createLog(String logMessage, Timestamp logDate) {
+    public static synchronized void createLog(String logMessage, Timestamp logDate) {
         String sql = "INSERT INTO logs (log_message, log_date) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -59,7 +59,7 @@ public class LogOperations {
         }
     }
 
-    public static void updateLog(int id, String newLogMessage, Timestamp newLogDate) {
+    public static synchronized void updateLog(int id, String newLogMessage, Timestamp newLogDate) {
         String sql = "UPDATE logs SET log_message = ?, log_date = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -72,7 +72,7 @@ public class LogOperations {
         }
     }
 
-    public static void deleteLog(int id) {
+    public static synchronized void deleteLog(int id) {
         String sql = "DELETE FROM logs WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

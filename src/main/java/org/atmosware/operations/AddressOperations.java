@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddressOperations {
-    public static void createAddress(int accountId, String street, String city, String state, String zipCode) {
+    public static synchronized void createAddress(int accountId, String street, String city, String state, String zipCode) {
         String sql = "INSERT INTO address (account_id, street, city, state, zip_code) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -62,7 +62,7 @@ public class AddressOperations {
         }
     }
 
-    public static void updateAddress(int id, String newStreet, String newCity, String newState, String newZipCode) {
+    public static synchronized void updateAddress(int id, String newStreet, String newCity, String newState, String newZipCode) {
         String sql = "UPDATE address SET street = ?, city = ?, state = ?, zip_code = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -77,7 +77,7 @@ public class AddressOperations {
         }
     }
 
-    public static void deleteAddress(int id) {
+    public static synchronized void deleteAddress(int id) {
         String sql = "DELETE FROM address WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

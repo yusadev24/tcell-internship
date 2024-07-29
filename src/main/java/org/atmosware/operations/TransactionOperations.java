@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class TransactionOperations {
-    public static void createTransaction(int accountId, BigDecimal amount, Timestamp transactionDate) {
+    public static synchronized void createTransaction(int accountId, BigDecimal amount, Timestamp transactionDate) {
         String sql = "INSERT INTO transactions (account_id, amount, transaction_date) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -58,7 +58,7 @@ public class TransactionOperations {
         }
     }
 
-    public static void updateTransaction(int id, BigDecimal newAmount, Timestamp newTransactionDate) {
+    public static synchronized void updateTransaction(int id, BigDecimal newAmount, Timestamp newTransactionDate) {
         String sql = "UPDATE transactions SET amount = ?, transaction_date = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class TransactionOperations {
         }
     }
 
-    public static void deleteTransaction(int id) {
+    public static synchronized void deleteTransaction(int id) {
         String sql = "DELETE FROM transactions WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
